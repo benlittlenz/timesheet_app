@@ -17,14 +17,35 @@ class TimesheetScreen extends StatefulWidget {
 
 class TimesheetScreenState extends State<TimesheetScreen> {
   List<Job> _dropdownItems = [
-    Job(1, "First Value"),
-    Job(2, "Second Item"),
-    Job(3, "Third Item"),
-    Job(4, "Fourth Item")
+    Job(1, "First Job"),
+    Job(2, "Second Job"),
+    Job(3, "Third Job"),
+    Job(4, "Fourth Job")
   ];
 
+  List<DropdownMenuItem<Job>> _dropdownMenuItems;
+  Job _selectedItem;
+
+  void initState() {
+    super.initState;
+    _dropdownMenuItems = buildDropdownMenuItems(_dropdownItems);
+    _selectedItem = _dropdownMenuItems[0].value;
+  }
+
+  List<DropdownMenuItem<Job>> buildDropdownMenuItems(List listItems) {
+    List<DropdownMenuItem<Job>> items = List();
+    for(Job listItem in listItems) {
+      items.add(
+        DropdownMenuItem(
+          child: Text(listItem.name),
+          value: listItem,
+        ),
+      );
+    }
+    return items;
+  }
+
   final Timesheet _timesheet;
-  int _value = 1;
   TimesheetScreenState({Key key, timesheet}) : _timesheet = timesheet;
 
   @override
@@ -35,31 +56,14 @@ class TimesheetScreenState extends State<TimesheetScreen> {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: DropdownButton(
-          value: _value,
-          items: [
-            DropdownMenuItem(
-              child: Text("First Job"),
-              value: 1,
-            ),
-            DropdownMenuItem(
-              child: Text("Second Job"),
-              value: 2,
-            ),
-            DropdownMenuItem(
-              child: Text("Third Job"),
-              value: 3,
-            ),
-            DropdownMenuItem(
-              child: Text("Forth Job"),
-              value: 4,
-            ),
-          ],
+        child: DropdownButton<Job>(
+          value: _selectedItem,
+          items: _dropdownMenuItems,
           onChanged: (value) {
             setState(() {
-              _value = value;
+              _selectedItem = value;
             });
-          },
+          }
         ),
       ),
     );
