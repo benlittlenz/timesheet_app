@@ -12,15 +12,34 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Timesheet"),
       ),
-      body: _buildTimesheetList()
+      body: _buildTimesheetList(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home'
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_books),
+            label: 'Timesheets'
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildTimesheetList () {
+    var allTimesheets = collection.allTimesheets;
+
+    if(allTimesheets.length == 0) {
+      return Center(
+        child: Text("No Timesheets")
+      );
+    }
     return ListView.builder(
       itemCount: 3,
       itemBuilder: (context, index) {
-        var timesheet = collection.allTimesheets[index];
+        var timesheet = allTimesheets[index];
         return ListTile(
           title: Text(timesheet.job)
         );
