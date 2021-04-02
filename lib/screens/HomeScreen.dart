@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timesheet_app/models/Timesheet.dart';
 import 'package:timesheet_app/providers/TimesheetCollection.dart';
+import 'package:timesheet_app/screens/TimesheetScreen.dart';
 import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Timesheet"),
+        title: Text("Home"),
       ),
       body: _buildTimesheetList(),
       floatingActionButton: FloatingActionButton(
@@ -22,6 +23,9 @@ class HomeScreen extends StatelessWidget {
             id: uuid.v4(),
           );
           Provider.of<TimesheetCollection>(context, listen: false).addTimesheet(timesheet);
+
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => TimesheetScreen(timesheet: timesheet)));
         },
       ),
       bottomNavigationBar: BottomNavigationBar(

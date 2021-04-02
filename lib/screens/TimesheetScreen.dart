@@ -16,14 +16,43 @@ class TimesheetScreen extends StatefulWidget {
 
 class TimesheetScreenState extends State<TimesheetScreen> {
   final Timesheet _timesheet;
-
+  int _value = 1;
   TimesheetScreenState({Key key, timesheet}) : _timesheet = timesheet;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Timesheet"),
+        title: Text("Create Timesheet"),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: DropdownButton(
+          value: _value,
+          items: [
+            DropdownMenuItem(
+              child: Text("First Job"),
+              value: 1,
+            ),
+            DropdownMenuItem(
+              child: Text("Second Job"),
+              value: 2,
+            ),
+            DropdownMenuItem(
+              child: Text("Third Job"),
+              value: 3,
+            ),
+            DropdownMenuItem(
+              child: Text("Forth Job"),
+              value: 4,
+            ),
+          ],
+          onChanged: (value) {
+            setState(() {
+              _value = value;
+            });
+          },
+        ),
       ),
     );
   }
