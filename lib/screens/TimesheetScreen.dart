@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timesheet_app/models/Job.dart';
 
 import 'package:timesheet_app/models/Timesheet.dart';
 
@@ -15,6 +16,13 @@ class TimesheetScreen extends StatefulWidget {
 }
 
 class TimesheetScreenState extends State<TimesheetScreen> {
+  List<Job> _dropdownItems = [
+    Job(1, "First Value"),
+    Job(2, "Second Item"),
+    Job(3, "Third Item"),
+    Job(4, "Fourth Item")
+  ];
+
   final Timesheet _timesheet;
   int _value = 1;
   TimesheetScreenState({Key key, timesheet}) : _timesheet = timesheet;
