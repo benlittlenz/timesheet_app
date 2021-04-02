@@ -12,6 +12,7 @@ class TimesheetCollection extends ChangeNotifier
   get allTimesheets => _timesheets;
 
   void addTimesheet (Timesheet timesheet) {
+
     _timesheets.add(timesheet);
 
     notifyListeners();

@@ -3,5 +3,5 @@ class Timesheet
   String id;
   String job;
 
-  Timesheet({ this.id, this.job });
+  Timesheet({ this.id, this.job = 'abc' });
 }

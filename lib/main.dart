@@ -4,14 +4,12 @@ import 'package:timesheet_app/providers/TimesheetCollection.dart';
 import 'package:timesheet_app/screens/HomeScreen.dart';
 import 'package:timesheet_app/screens/TimesheetScreen.dart';
 
-void main() {
-  runApp(
+void main() => runApp(
   ChangeNotifierProvider(
     create: (_) => new TimesheetCollection(),
     child: MyApp(),
   )
-  );
-}
+);
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
