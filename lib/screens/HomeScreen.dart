@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timesheet_app/models/Timesheet.dart';
 import 'package:timesheet_app/providers/TimesheetCollection.dart';
 import 'package:uuid/uuid.dart';
@@ -17,43 +18,36 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Timesheet timesheet = Timesheet(
-            id: uuid.v4()
-          );
-          debugPrint(timesheet.toString());
+          Timesheet timesheet = Timesheet(id: uuid.v4());
+          Provider.of<TimesheetCollection>(context, listen: false)
+              .addTimesheet(timesheet);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            label: 'Timesheets'
-          ),
+              icon: Icon(Icons.library_books), label: 'Timesheets'),
         ],
       ),
     );
   }
 
-  Widget _buildTimesheetList () {
-    var allTimesheets = collection.allTimesheets;
+  Widget _buildTimesheetList() {
+    return Consumer<TimesheetCollection>(
+      builder: (context, timesheet, child) {
+      var allTimesheets = collection.allTimesheets;
 
-    if(allTimesheets.length == 0) {
-      return Center(
-        child: Text("No Timesheets")
+      if (allTimesheets.length == 0) {
+        return Center(child: Text("No Timesheets"));
+      }
+      return ListView.builder(
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          var timesheet = allTimesheets[index];
+          return ListTile(title: Text(timesheet.job));
+        },
       );
-    }
-    return ListView.builder(
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        var timesheet = allTimesheets[index];
-        return ListTile(
-          title: Text(timesheet.job)
-        );
-      },
-    );
+    });
   }
 }
