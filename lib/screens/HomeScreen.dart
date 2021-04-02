@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:timesheet_app/models/Timesheet.dart';
 import 'package:timesheet_app/providers/TimesheetCollection.dart';
 import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatelessWidget {
-  var uuid = Uuid();
+  var uuid = new Uuid();
   var collection = TimesheetCollection();
 
   @override
@@ -13,6 +14,15 @@ class HomeScreen extends StatelessWidget {
         title: Text("Timesheet"),
       ),
       body: _buildTimesheetList(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Timesheet timesheet = Timesheet(
+            id: uuid.v4()
+          );
+          debugPrint(timesheet.toString());
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
