@@ -1,6 +1,17 @@
 class Job {
-  int value;
-  String name;
+  String id;
+  String ref;
+  String description;
+  String address;
+  String suburb;
+  String city;
 
-  Job(this.value, this.name);
+  Job({
+    this.id,
+    this.ref,
+    this.description,
+    this.address,
+    this.suburb,
+    this.city
+  });
 }
