@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:timesheet_app/models/Job.dart';
 
 import 'package:timesheet_app/models/Timesheet.dart';
@@ -34,7 +35,7 @@ class TimesheetScreenState extends State<TimesheetScreen> {
 
   List<DropdownMenuItem<Job>> buildDropdownMenuItems(List listItems) {
     List<DropdownMenuItem<Job>> items = List();
-    for(Job listItem in listItems) {
+    for (Job listItem in listItems) {
       items.add(
         DropdownMenuItem(
           child: Text(listItem.name),
@@ -48,24 +49,41 @@ class TimesheetScreenState extends State<TimesheetScreen> {
   final Timesheet _timesheet;
   TimesheetScreenState({Key key, timesheet}) : _timesheet = timesheet;
 
+  TimeOfDay _time = TimeOfDay.now().replacing(minute: 30);
+  bool iosStyle = true;
+
+  void onTimeChanged(TimeOfDay newTime) {
+    setState(() {
+      _time = newTime;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Create Timesheet"),
       ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: DropdownButton<Job>(
-          value: _selectedItem,
-          items: _dropdownMenuItems,
-          onChanged: (value) {
-            setState(() {
-              _selectedItem = value;
-            });
-          }
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Inline Picker Style",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            // Render inline widget
+            createInlinePicker(
+              elevation: 1,
+              value: _time,
+              onChange: onTimeChanged,
+              //minuteInterval: MinuteInterval.FIVE,
+              iosStylePicker: false,
+              // minMinute: 7,
+              // maxMinute: 56,
+            ),
+          ],
         ),
-      ),
-    );
+    ),);
   }
 }
