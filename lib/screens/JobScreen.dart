@@ -56,6 +56,7 @@ class _JobScreenState extends State<JobScreen> {
               "${_job.description}\n${_job.address}, ${_job.suburb}, ${_job.city}"),
             trailing: Icon(Icons.more_vert),
             isThreeLine: true,
+            
           ),
         );
       },
