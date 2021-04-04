@@ -38,7 +38,8 @@ class _JobScreenState extends State<JobScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("List of Jobs")),
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      //appBar: AppBar(title: Text("List of Jobs")),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : _buildListView(),
@@ -51,20 +52,26 @@ class _JobScreenState extends State<JobScreen> {
       itemBuilder: (_, index) {
         var _job = _jobs.data[index];
         return Card(
+                    elevation: 8.0,
+          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+
           child: ListTile(
-            title: Text(_job.ref),
-            subtitle:
-            Text(
-              "${_job.description}\n${_job.address}, ${_job.suburb}, ${_job.city}"),
-            trailing: Icon(Icons.more_vert),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            title: Text(_job.ref, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+            subtitle: Text(
+                "${_job.description}\n${_job.address}, ${_job.suburb}, ${_job.city}",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal)),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
             isThreeLine: true,
             onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => JobDetailScreen(id: _job.id)
-                    ),
-                  );
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => JobDetailScreen(id: _job.id)),
+              );
             },
+          ),
           ),
         );
       },

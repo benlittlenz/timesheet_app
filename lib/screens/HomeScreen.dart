@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("List Of Jobs"),
       ),
       body: JobScreen(),
       //body: _buildTimesheetList(),
