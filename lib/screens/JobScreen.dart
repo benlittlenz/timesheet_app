@@ -44,12 +44,19 @@ class _JobScreenState extends State<JobScreen> {
   }
 
   ListView _buildListView() {
-    return ListView.separated(
+    return ListView.builder(
       itemCount: _jobs.data.length,
-      separatorBuilder: (_, __) => Divider(height: 1, color: Colors.green),
       itemBuilder: (_, index) {
-        return ListTile(
-          title: Text(_jobs.data[index].ref),
+        var _job = _jobs.data[index];
+        return Card(
+          child: ListTile(
+            title: Text(_job.ref),
+            subtitle:
+            Text(
+              "${_job.description}\n${_job.address}, ${_job.suburb}, ${_job.city}"),
+            trailing: Icon(Icons.more_vert),
+            isThreeLine: true,
+          ),
         );
       },
     );

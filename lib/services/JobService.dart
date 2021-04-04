@@ -13,11 +13,9 @@ class JobService {
     return http.get(Uri.parse('http://10.0.2.2:8000/api/jobs'))
       .then((res) {
         if (res.statusCode == 200) {
-          final data = json.decode(res.body);
-          final jobs = <Job>[];
-
-          for(var item in data) {
-            final job = Job(
+          List<dynamic> data = json.decode(res.body);
+          List<Job> jobs = data.map((item) =>
+            Job(
               id: item['id'].toString(),
               ref: item['job_ref'],
               description: item['job_description'],
@@ -26,9 +24,8 @@ class JobService {
               city: item['city'],
               status: item['status'],
               active: item['active'],
-            );
-            jobs.add(job);
-          }
+            )).toList();
+
           return APIResponse<List<Job>>(
             data: jobs,
           );
