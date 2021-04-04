@@ -19,7 +19,13 @@ class JobService {
           for(var item in data) {
             final job = Job(
               id: item['id'].toString(),
-              ref: item['job_ref']
+              ref: item['job_ref'],
+              description: item['job_description'],
+              address: item['address'],
+              suburb: item['suburb'],
+              city: item['city'],
+              status: item['status'],
+              active: item['active'],
             );
             jobs.add(job);
           }

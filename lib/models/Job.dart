@@ -5,6 +5,8 @@ class Job {
   String address;
   String suburb;
   String city;
+  String status;
+  String active;
 
   Job({
     this.id,
@@ -12,6 +14,8 @@ class Job {
     this.description,
     this.address,
     this.suburb,
-    this.city
+    this.city,
+    this.status,
+    this.active
   });
 }

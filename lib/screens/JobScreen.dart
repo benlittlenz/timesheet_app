@@ -39,16 +39,19 @@ class _JobScreenState extends State<JobScreen> {
       appBar: AppBar(title: Text("List of Jobs")),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : ListView.separated(
-              separatorBuilder: (_, __) =>
-                  Divider(height: 1, color: Colors.green),
-              itemBuilder: (_, index) {
-                return ListTile(
-                  title: Text(_jobs.data[index].ref),
-                );
-              },
-              itemCount: _jobs.data.length,
-            ),
+          : _buildListView(),
+    );
+  }
+
+  ListView _buildListView() {
+    return ListView.separated(
+      itemCount: _jobs.data.length,
+      separatorBuilder: (_, __) => Divider(height: 1, color: Colors.green),
+      itemBuilder: (_, index) {
+        return ListTile(
+          title: Text(_jobs.data[index].ref),
+        );
+      },
     );
   }
 }
