@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:timesheet_app/models/APIResponse.dart';
 import 'package:timesheet_app/models/Job.dart';
+import 'package:timesheet_app/models/JobDetail.dart';
+import 'package:timesheet_app/screens/JobDetailScreen.dart';
 import 'package:timesheet_app/services/JobService.dart';
 
 class JobScreen extends StatefulWidget {
@@ -56,7 +58,13 @@ class _JobScreenState extends State<JobScreen> {
               "${_job.description}\n${_job.address}, ${_job.suburb}, ${_job.city}"),
             trailing: Icon(Icons.more_vert),
             isThreeLine: true,
-            
+            onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (_) => JobDetailScreen(id: _job.id)
+                    ),
+                  );
+            },
           ),
         );
       },
