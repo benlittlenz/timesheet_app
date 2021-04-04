@@ -15,16 +15,8 @@ class JobService {
         if (res.statusCode == 200) {
           List<dynamic> data = json.decode(res.body);
           List<Job> jobs = data.map((item) =>
-            Job(
-              id: item['id'].toString(),
-              ref: item['job_ref'],
-              description: item['job_description'],
-              address: item['address'],
-              suburb: item['suburb'],
-              city: item['city'],
-              status: item['status'],
-              active: item['active'],
-            )).toList();
+            Job.fromJson(item)
+          ).toList();
 
           return APIResponse<List<Job>>(
             data: jobs,
