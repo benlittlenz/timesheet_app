@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:timesheet_app/providers/TimesheetCollection.dart';
 import 'package:timesheet_app/screens/HomeScreen.dart';
 import 'package:timesheet_app/screens/TimesheetScreen.dart';
+import 'package:timesheet_app/services/JobService.dart';
 
-void main() => runApp(
-  ChangeNotifierProvider(
-    create: (_) => new TimesheetCollection(),
-    child: MyApp(),
-  )
-);
+void setupLocator() {
+  GetIt.instance.registerLazySingleton(() => JobService());
+}
 
+
+void main() {
+  setupLocator();
+  runApp(MyApp());
+}
+
+  // ChangeNotifierProvider(
+  //   create: (_) => new TimesheetCollection(),
+  //   child: MyApp(),
+  // )
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
