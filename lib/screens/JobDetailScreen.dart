@@ -40,6 +40,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         appBar: AppBar(
           title: Text('Job Details'),
         ),
@@ -53,13 +54,13 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                       height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.width,
                       child: Center(
-                        child: Text(
-                          job.ref,
-                          style: TextStyle(fontSize: 45.0)
-                        ),
-                        ),
+                        child: Text(job.ref,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 45.0)),
+                      ),
                     ),
-                    Container(height: 8),
+                    //Container(height: 8),
+                    Container(child: Center(child: Text(job.description)))
                     //Text(job.description)
                   ],
                 ),

@@ -2,18 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:timesheet_app/providers/TimesheetCollection.dart';
+import 'package:timesheet_app/providers/auth.dart';
 import 'package:timesheet_app/screens/HomeScreen.dart';
 import 'package:timesheet_app/screens/TimesheetScreen.dart';
 import 'package:timesheet_app/services/JobService.dart';
 
-void setupLocator() {
-  GetIt.instance.registerLazySingleton(() => JobService());
-}
+// void setupLocator() {
+//   GetIt.instance.registerLazySingleton(() => JobService());
+// }
 
 
 void main() {
-  setupLocator();
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => Auth(),
+      child: MyApp(),
+    )
+  );
 }
 
   // ChangeNotifierProvider(
@@ -29,12 +34,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color.fromRGBO(58, 66, 86, 1.0),
       ),
-      home: HomeScreen(),
+      home: Home(title: 'Flutter Authentication'),
     );
   }
 }
 
 class Home extends StatefulWidget {
+  Home({Key key, this.title}) : super(key: key);
+  final String title;
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -46,7 +54,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Timesheet"),
+        title: Text(widget.title),
       ),
       body: Container(
         padding: EdgeInsets.all(20),
