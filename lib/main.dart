@@ -6,6 +6,7 @@ import 'package:timesheet_app/providers/auth.dart';
 import 'package:timesheet_app/screens/HomeScreen.dart';
 import 'package:timesheet_app/screens/TimesheetScreen.dart';
 import 'package:timesheet_app/services/JobService.dart';
+import 'package:timesheet_app/widgets/nav-drawer.dart';
 
 // void setupLocator() {
 //   GetIt.instance.registerLazySingleton(() => JobService());
@@ -56,32 +57,15 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: DropdownButton(
-          value: _value,
-          items: [
-            DropdownMenuItem(
-              child: Text("First Item"),
-              value: 1,
-            ),
-            DropdownMenuItem(
-              child: Text("Second Item"),
-              value: 2,
-            ),
-            DropdownMenuItem(
-              child: Text("Third Item"),
-              value: 3,
-            ),
-            DropdownMenuItem(
-              child: Text("Forth Item"),
-              value: 4,
-            ),
-          ],
-          onChanged: (value) {
-            setState(() {
-              _value = value;
-            });
+      drawer: NavDrawer(),
+      body: Center(
+        child: Consumer<Auth>(
+          builder: (context, auth, child) {
+            if(auth.authenticated) {
+              return Text('You are logged in');
+            } else {
+              return Text("You are not logged in");
+            }
           },
         ),
       ),

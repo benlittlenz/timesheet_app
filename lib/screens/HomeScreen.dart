@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timesheet_app/models/Timesheet.dart';
 import 'package:timesheet_app/providers/TimesheetCollection.dart';
+import 'package:timesheet_app/screens/JobScreen.dart';
 import 'package:timesheet_app/screens/TimesheetScreen.dart';
 import 'package:uuid/uuid.dart';
 
-import 'JobScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   var uuid = new Uuid();
