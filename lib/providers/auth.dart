@@ -21,11 +21,30 @@ class Auth extends ChangeNotifier {
 
     Dio.Response response = await dio().post('auth/token',
         data: json.encode(credentials..addAll({'deviceId': deviceId}))
-        //data: json.encode(credentials)
         );
     String token = json.decode(response.toString())['token'];
 
+
+    await attempt(token);
     debugPrint(token);
+  }
+
+    Future attempt (String token) async {
+    try {
+      Dio.Response response = await dio().get(
+        'auth/user',
+        options: Dio.Options(
+          headers: {
+            'Authorization': 'Bearer $token'
+          }
+        )
+      );
+      _user = User.fromJson(json.decode(response.toString()));
+      _isAuthenticated = true;
+    } catch (err) {
+      _isAuthenticated = false;
+    }
+    notifyListeners();
   }
 
   void logout() async {}
