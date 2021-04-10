@@ -1,24 +1,24 @@
-// import 'package:dio/dio.dart';
-// import 'package:timesheet_app/providers/auth.dart';
+import 'package:dio/dio.dart';
+import 'package:timesheet_app/providers/auth.dart';
 
-// Dio dio() {
-//   var dio = Dio(
-//     BaseOptions(
-//       baseUrl: 'http://10.0.2.2:8000/api/',
-//       responseType: ResponseType.plain,
-//       headers: {
-//         'accept': 'application/json',
-//         'content-type': 'application/json',
-//       }
-//     )
-//   );
+Dio dio() {
+  var dio = Dio(
+    BaseOptions(
+      baseUrl: 'http://10.0.2.2:8000/api/',
+      responseType: ResponseType.plain,
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json',
+      }
+    )
+  );
 
-//   dio..interceptors.add(InterceptorsWrapper(
-//     onRequest: (options) => requestInterceptor(options)
-//   ));
+  // dio..interceptors.add(InterceptorsWrapper(
+  //   onRequest: (options) => requestInterceptor(options)
+  // ));
 
-//   return dio;
-// }
+  return dio;
+}
 
 
 // dynamic requestInterceptor(RequestOptions options) async {
