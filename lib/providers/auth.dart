@@ -39,8 +39,6 @@ class Auth extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() async {}
-
   Future getDeviceId() async {
     String deviceId;
 
@@ -63,5 +61,23 @@ class Auth extends ChangeNotifier {
 
   deleteToken() async {
     await _storage.delete(key: 'auth');
+  }
+
+  void logout () async {
+    _isAuthenticated = false;
+
+    await dio().delete(
+      'auth/token',
+      data: {
+        'deviceId': await getDeviceId()
+      },
+      options: Dio.Options(
+        headers: { 'auth': true }
+      )
+    );
+
+    await this.deleteToken();
+
+    notifyListeners();
   }
 }
