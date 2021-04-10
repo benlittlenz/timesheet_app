@@ -15,17 +15,16 @@ class JobScreen extends StatefulWidget {
 
 class _JobScreenState extends State<JobScreen> {
   Future<List<Job>> getJobs() async {
-    return [];
-    // Dio.Response response = await dio().get(
-    //   'jobs',
-    //   options: Dio.Options(
-    //     headers: { 'auth': true }
-    //   )
-    // );
+    Dio.Response response = await dio().get(
+      'jobs',
+      options: Dio.Options(
+        headers: { 'auth': true }
+      )
+    );
 
-    // List jobs = json.decode(response.toString());
+    List jobs = json.decode(response.toString());
 
-    // return jobs.map((job) => Job.fromJson(job)).toList();
+    return jobs.map((job) => Job.fromJson(job)).toList();
   }
 
   @override

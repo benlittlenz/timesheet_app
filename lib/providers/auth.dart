@@ -4,9 +4,9 @@ import 'package:dio/dio.dart' as Dio;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:timesheet_app/dio.dart';
 import 'package:timesheet_app/models/User.dart';
 
-import '../dio.dart';
 
 class Auth extends ChangeNotifier {
   final _storage = FlutterSecureStorage();
@@ -16,7 +16,7 @@ class Auth extends ChangeNotifier {
   bool get authenticated => _isAuthenticated;
   User get user => _user;
 
-  Future login({Map credentials}) async {
+  Future login ({Map credentials}) async {
     String deviceId = await getDeviceId();
 
     Dio.Response response = await dio().post('auth/token',
@@ -24,10 +24,10 @@ class Auth extends ChangeNotifier {
     String token = json.decode(response.toString())['token'];
 
     await attempt(token);
-    debugPrint(token);
+    storeToken(token);
   }
 
-  Future attempt(String token) async {
+  Future attempt (String token) async {
     try {
       Dio.Response response = await dio().get('auth/user',
           options: Dio.Options(headers: {'Authorization': 'Bearer $token'}));
@@ -39,7 +39,7 @@ class Auth extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getDeviceId() async {
+  Future getDeviceId () async {
     String deviceId;
 
     try {

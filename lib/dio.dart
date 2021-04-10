@@ -13,19 +13,19 @@ Dio dio() {
     )
   );
 
-  // dio..interceptors.add(InterceptorsWrapper(
-  //   onRequest: (options) => requestInterceptor(options)
-  // ));
+  dio..interceptors.add(InterceptorsWrapper(
+    onRequest: (options) => requestInterceptor(options)
+  ));
 
   return dio;
 }
 
 
-// dynamic requestInterceptor(RequestOptions options) async {
-//   //debugPrint(options.headers.toString());
-//   if(options.headers.containsKey('auth')) {
-//     var token = await Auth().fetchtoken();
-//     //debugPrint(token);
-//     options.headers.addAll({ 'Authorization': 'Bearer $token' });
-//   }
-// }
+dynamic requestInterceptor(RequestOptions options) async {
+  //debugPrint(options.headers.toString());
+  if(options.headers.containsKey('auth')) {
+    var token = await Auth().fetchtoken();
+    //debugPrint(token);
+    options.headers.addAll({ 'Authorization': 'Bearer $token' });
+  }
+}
