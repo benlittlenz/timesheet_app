@@ -43,7 +43,7 @@ class _JobScreenState extends State<JobScreen> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   var item = snapshot.data[index];
-
+                  
                   return Card(
                     elevation: 8.0,
           margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),

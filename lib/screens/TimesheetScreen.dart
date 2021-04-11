@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart' as Dio;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:timesheet_app/dio.dart';
-import 'package:timesheet_app/models/Job.dart';
 import 'package:timesheet_app/models/Timesheet.dart';
 
 
@@ -41,6 +41,9 @@ class TimesheetScreenState extends State<TimesheetScreen> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   var item = snapshot.data[index];
+                  DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+                  DateTime started = dateFormat.parse(item.started);
+                  DateTime finished = dateFormat.parse(item.stopped);
 
                   return Card(
                     elevation: 8.0,
@@ -51,7 +54,7 @@ class TimesheetScreenState extends State<TimesheetScreen> {
           child: ListTile(
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            title: Text(item.started + ' ' + item.stopped, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+            title: Text(started.toString() + ' ' + finished.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
             onTap: () {
               // Navigator.of(context).push(
               //   MaterialPageRoute(builder: (_) => JobDetailScreen(id: _job.id)),
