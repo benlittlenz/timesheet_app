@@ -7,7 +7,6 @@ import 'package:platform_device_id/platform_device_id.dart';
 import 'package:timesheet_app/dio.dart';
 import 'package:timesheet_app/models/User.dart';
 
-
 class Auth extends ChangeNotifier {
   final _storage = FlutterSecureStorage();
   bool _isAuthenticated = false;

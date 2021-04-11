@@ -1,89 +1,75 @@
-// import 'package:flutter/material.dart';
-// import 'package:day_night_time_picker/day_night_time_picker.dart';
-// import 'package:timesheet_app/models/Job.dart';
+import 'dart:convert';
 
-// import 'package:timesheet_app/models/Timesheet.dart';
+import 'package:dio/dio.dart' as Dio;
+import 'package:flutter/material.dart';
+import 'package:timesheet_app/dio.dart';
+import 'package:timesheet_app/models/Job.dart';
+import 'package:timesheet_app/models/Timesheet.dart';
 
-// class TimesheetScreen extends StatefulWidget {
-//   final Timesheet _timesheet;
-//   TimesheetScreen({Key key, timesheet}) : _timesheet = timesheet;
 
-//   @override
-//   State<StatefulWidget> createState() {
-//     return TimesheetScreenState(
-//       timesheet: _timesheet,
-//     );
-//   }
-// }
+class TimesheetScreen extends StatefulWidget {
+  @override
+TimesheetScreenState createState() => TimesheetScreenState();
+}
 
-// class TimesheetScreenState extends State<TimesheetScreen> {
-//   List<Job> _dropdownItems = [
-//     Job(1, "First Job"),
-//     Job(2, "Second Job"),
-//     Job(3, "Third Job"),
-//     Job(4, "Fourth Job")
-//   ];
+class TimesheetScreenState extends State<TimesheetScreen> {
+    Future<List<Timesheet>> getTimesheets() async {
+    Dio.Response response = await dio().get(
+      'timesheets',
+      options: Dio.Options(
+        headers: { 'auth': true }
+      )
+    );
 
-//   List<DropdownMenuItem<Job>> _dropdownMenuItems;
-//   Job _selectedItem;
+    List timesheets = json.decode(response.toString());
 
-//   void initState() {
-//     super.initState;
-//     _dropdownMenuItems = buildDropdownMenuItems(_dropdownItems);
-//     _selectedItem = _dropdownMenuItems[0].value;
-//   }
+    return timesheets.map((job) => Timesheet.fromJson(job)).toList();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      appBar: AppBar(
+        title: Text('Timesheets'),
+      ),
+      body: Center(
+        child: FutureBuilder<List<Timesheet>>(
+          future: getTimesheets(),
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  var item = snapshot.data[index];
 
-//   List<DropdownMenuItem<Job>> buildDropdownMenuItems(List listItems) {
-//     List<DropdownMenuItem<Job>> items = List();
-//     for (Job listItem in listItems) {
-//       items.add(
-//         DropdownMenuItem(
-//           child: Text(listItem.name),
-//           value: listItem,
-//         ),
-//       );
-//     }
-//     return items;
-//   }
+                  return Card(
+                    elevation: 8.0,
+          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
 
-//   final Timesheet _timesheet;
-//   TimesheetScreenState({Key key, timesheet}) : _timesheet = timesheet;
+          child: ListTile(
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            title: Text(item.started + ' ' + item.stopped, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+            onTap: () {
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(builder: (_) => JobDetailScreen(id: _job.id)),
+              // );
+            },
+          ),
+          ),
+        );
+                }
+              );
+            } else if(snapshot.hasError) {
+              return Text('Failed to load jobs');
+            }
 
-//   TimeOfDay _time = TimeOfDay.now().replacing(minute: 30);
-//   bool iosStyle = true;
-
-//   void onTimeChanged(TimeOfDay newTime) {
-//     setState(() {
-//       _time = newTime;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Create Timesheet"),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Text(
-//               "Inline Picker Style",
-//               style: Theme.of(context).textTheme.headline6,
-//             ),
-//             // Render inline widget
-//             createInlinePicker(
-//               elevation: 1,
-//               value: _time,
-//               onChange: onTimeChanged,
-//               //minuteInterval: MinuteInterval.FIVE,
-//               iosStylePicker: false,
-//               // minMinute: 7,
-//               // maxMinute: 56,
-//             ),
-//           ],
-//         ),
-//     ),);
-//   }
-// }
+            return Center(child: CircularProgressIndicator());
+          },
+        )
+      ),
+    );
+  }
+}

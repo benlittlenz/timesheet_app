@@ -30,6 +30,7 @@ class _JobScreenState extends State<JobScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       appBar: AppBar(
         title: Text('Jobs'),
       ),
@@ -43,16 +44,36 @@ class _JobScreenState extends State<JobScreen> {
                 itemBuilder: (context, index) {
                   var item = snapshot.data[index];
 
-                  return ListTile(
-                    title: Text(item.ref),
-                  );
+                  return Card(
+                    elevation: 8.0,
+          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+
+          child: ListTile(
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            title: Text(item.ref, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+            subtitle: Text(
+                "${item.description}\n${item.address}, ${item.suburb}, ${item.city}",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal)),
+            trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
+            isThreeLine: true,
+            onTap: () {
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(builder: (_) => JobDetailScreen(id: _job.id)),
+              // );
+            },
+          ),
+          ),
+        );
                 }
               );
             } else if(snapshot.hasError) {
               return Text('Failed to load jobs');
             }
 
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           },
         )
       ),
