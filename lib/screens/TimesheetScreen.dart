@@ -1,77 +1,164 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart' as Dio;
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:timesheet_app/dio.dart';
-import 'package:timesheet_app/models/Timesheet.dart';
-
 
 class TimesheetScreen extends StatefulWidget {
   @override
-TimesheetScreenState createState() => TimesheetScreenState();
+  TimesheetScreenState createState() => TimesheetScreenState();
 }
 
 class TimesheetScreenState extends State<TimesheetScreen> {
-    Future<List<Timesheet>> getTimesheets() async {
-    Dio.Response response = await dio().get(
-      'timesheets',
-      options: Dio.Options(
-        headers: { 'auth': true }
-      )
-    );
+  //   Future<List<Timesheet>> getTimesheets() async {
+  //   Dio.Response response = await dio().get(
+  //     'timesheets',
+  //     options: Dio.Options(
+  //       headers: { 'auth': true }
+  //     )
+  //   );
 
-    List timesheets = json.decode(response.toString());
+  //   List timesheets = json.decode(response.toString());
 
-    return timesheets.map((job) => Timesheet.fromJson(job)).toList();
-  }
+  //   return timesheets.map((job) => Timesheet.fromJson(job)).toList();
+  // }
   @override
   Widget build(BuildContext context) {
+    DateTime now = new DateTime.now();
+    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+    final DateFormat timeFormat = DateFormat('HH:mm');
+    String _date = dateFormat.format(now).toString();
+    String _time = timeFormat.format(now).toString();
+    //String _time = "Not set";
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       appBar: AppBar(
-        title: Text('Timesheets'),
+        title: Text('DateTime Picker'),
       ),
-      body: Center(
-        child: FutureBuilder<List<Timesheet>>(
-          future: getTimesheets(),
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  var item = snapshot.data[index];
-                  DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-                  DateTime started = dateFormat.parse(item.started);
-                  DateTime finished = dateFormat.parse(item.stopped);
-
-                  return Card(
-                    elevation: 8.0,
-          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-          child: Container(
-            decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
-
-          child: ListTile(
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            title: Text(started.toString() + ' ' + finished.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-            onTap: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: (_) => JobDetailScreen(id: _job.id)),
-              // );
-            },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
+                elevation: 4.0,
+                onPressed: () {
+                  DatePicker.showDatePicker(context,
+                      theme: DatePickerTheme(
+                        containerHeight: 210.0,
+                      ),
+                      showTitleActions: true,
+                      minTime: DateTime(now.year, now.month - 1, 1),
+                      maxTime: DateTime(now.year, now.month + 1, 31), onConfirm: (date) {
+                    print('confirm $date');
+                    _date = '${date.year} - ${date.month} - ${date.day}';
+                    setState(() {});
+                  }, currentTime: DateTime.now(), locale: LocaleType.en);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.date_range,
+                                  size: 18.0,
+                                  color: Colors.teal,
+                                ),
+                                Text(
+                                  " $_date",
+                                  style: TextStyle(
+                                      color: Colors.teal,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Text(
+                        "  Change",
+                        style: TextStyle(
+                            color: Colors.teal,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0),
+                      ),
+                    ],
+                  ),
+                ),
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0)),
+                elevation: 4.0,
+                onPressed: () {
+                  DatePicker.showTimePicker(context,
+                      theme: DatePickerTheme(
+                        containerHeight: 210.0,
+                      ),
+                      showTitleActions: true, onConfirm: (time) {
+                    print('confirm $time');
+                    _time = '${time.hour}:${time.minute}';
+                    // setState(() {});
+                  }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  // setState(() {});
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.access_time,
+                                  size: 18.0,
+                                  color: Colors.teal,
+                                ),
+                                Text(
+                                  "$_time",
+                                  style: TextStyle(
+                                      color: Colors.teal,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Text(
+                        "  Change",
+                        style: TextStyle(
+                            color: Colors.teal,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0),
+                      ),
+                    ],
+                  ),
+                ),
+                color: Colors.white,
+              )
+            ],
           ),
-          ),
-        );
-                }
-              );
-            } else if(snapshot.hasError) {
-              return Text('Failed to load jobs');
-            }
-
-            return Center(child: CircularProgressIndicator());
-          },
-        )
+        ),
       ),
     );
   }

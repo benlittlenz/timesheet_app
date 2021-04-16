@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as Dio;
 import 'package:flutter/material.dart';
 import 'package:timesheet_app/models/Job.dart';
+import 'package:timesheet_app/screens/JobDetailScreen.dart';
 
 import '../dio.dart';
 
@@ -12,6 +13,8 @@ class JobScreen extends StatefulWidget {
 }
 
 class _JobScreenState extends State<JobScreen> {
+  List<Job> jobList = List<Job>();
+
   Future<List<Job>> getJobs() async {
     Dio.Response response =
         await dio().get('jobs', options: Dio.Options(headers: {'auth': true}));
@@ -22,6 +25,11 @@ class _JobScreenState extends State<JobScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -29,15 +37,15 @@ class _JobScreenState extends State<JobScreen> {
         //leadingWidth: 80, // default is 56
         title: Text('Jobs'),
         actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
+          // Padding(
+          //     padding: EdgeInsets.only(right: 20.0),
+          //     child: GestureDetector(
+          //       onTap: () {},
+          //       child: Icon(
+          //         Icons.search,
+          //         size: 26.0,
+          //       ),
+          //     )),
         ],
       ),
       body: Container(
@@ -51,7 +59,19 @@ class _JobScreenState extends State<JobScreen> {
         ),
         child: Column(
           children: <Widget>[
-            
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (value) {},
+                //controller: editingController,
+                decoration: InputDecoration(
+                    labelText: "Search",
+                    hintText: "Search",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+              ),
+            ),
             Expanded(
                 child: FutureBuilder<List<Job>>(
               future: getJobs(),
@@ -102,7 +122,12 @@ class _JobScreenState extends State<JobScreen> {
                                 children: <Widget>[
                                   TextButton(
                                     child: const Text('VIEW DETAILS'),
-                                    onPressed: () {/* ... */},
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) => JobDetailScreen(data: item)),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
