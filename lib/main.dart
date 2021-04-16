@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(58, 66, 86, 1.0),
-      ),
+      // theme: ThemeData(
+      //   primaryColor: Color.fromRGBO(58, 66, 86, 1.0),
+      // ),
       home: Home(title: 'Flutter Authentication'),
     );
   }
@@ -70,9 +70,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(widget.title),
+      // ),
       drawer: NavDrawer(),
       body: Center(
         child: Consumer<Auth>(
